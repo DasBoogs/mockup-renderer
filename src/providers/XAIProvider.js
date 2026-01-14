@@ -65,23 +65,6 @@ Return ONLY the HTML code, nothing else.`;
       throw new Error(`X.AI request failed: ${error.message}`);
     }
   }
-
-  extractHTML(content) {
-    // Remove markdown code blocks if present
-    const htmlMatch = content.match(/```html\n?([\s\S]*?)```/);
-    if (htmlMatch) {
-      return htmlMatch[1].trim();
-    }
-
-    // Remove any other code block markers
-    const codeMatch = content.match(/```\n?([\s\S]*?)```/);
-    if (codeMatch) {
-      return codeMatch[1].trim();
-    }
-
-    // Return as-is if no code blocks found
-    return content.trim();
-  }
 }
 
 module.exports = XAIProvider;

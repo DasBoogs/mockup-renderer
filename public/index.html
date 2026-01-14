@@ -363,6 +363,9 @@
         let currentHTML = '';
         let sessionId = null;
         let history = [];
+        
+        // Configuration constants
+        const HISTORY_DESCRIPTION_MAX_LENGTH = 50;
 
         function showStatus(message, type) {
             const status = document.getElementById('status');
@@ -437,7 +440,12 @@
 
         function displayMockup(html) {
             const previewContent = document.getElementById('previewContent');
-            previewContent.innerHTML = `<iframe class="preview-frame" srcdoc="${html.replace(/"/g, '&quot;')}"></iframe>`;
+            const iframe = document.createElement('iframe');
+            iframe.className = 'preview-frame';
+            // Use srcdoc safely by properly escaping HTML attributes
+            iframe.setAttribute('srcdoc', html);
+            previewContent.innerHTML = '';
+            previewContent.appendChild(iframe);
         }
 
         function downloadHTML() {
@@ -484,7 +492,10 @@
             history.slice().reverse().forEach((item, index) => {
                 const div = document.createElement('div');
                 div.className = 'history-item';
-                div.textContent = `${history.length - index}. ${item.description.substring(0, 50)}...`;
+                const truncatedDesc = item.description.length > HISTORY_DESCRIPTION_MAX_LENGTH 
+                    ? item.description.substring(0, HISTORY_DESCRIPTION_MAX_LENGTH) + '...'
+                    : item.description;
+                div.textContent = `${history.length - index}. ${truncatedDesc}`;
                 div.onclick = () => {
                     currentHTML = item.html;
                     displayMockup(item.html);

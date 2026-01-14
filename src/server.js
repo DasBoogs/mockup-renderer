@@ -1,6 +1,7 @@
 require('dotenv').config();
 const express = require('express');
 const path = require('path');
+const crypto = require('crypto');
 const ProviderFactory = require('./providers/ProviderFactory');
 
 const app = express();
@@ -48,8 +49,8 @@ app.post('/api/generate', async (req, res) => {
     // Generate mockup
     const html = await aiProvider.generateMockup(description);
 
-    // Store in history if sessionId provided
-    const id = sessionId || Date.now().toString();
+    // Store in history if sessionId provided, otherwise generate a new one
+    const id = sessionId || crypto.randomBytes(16).toString('hex');
     if (!mockupHistory.has(id)) {
       mockupHistory.set(id, []);
     }
