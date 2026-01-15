@@ -39,7 +39,7 @@ Return ONLY the HTML code, nothing else.`;
         { role: 'user', content: description }
       ],
       temperature: 1,
-      max_tokens: 4000
+      stream: false
     };
 
     // Log the request being sent to the model
