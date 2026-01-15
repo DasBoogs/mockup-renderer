@@ -5,10 +5,33 @@ class AIProvider {
   /**
    * Generate HTML mockup from description
    * @param {string} description - User's mockup description
+   * @param {Array} conversationHistory - Optional array of previous {description, html} pairs
    * @returns {Promise<string>} - Generated HTML mockup
    */
-  async generateMockup(description) {
+  async generateMockup(description, conversationHistory = []) {
     throw new Error('generateMockup must be implemented by subclass');
+  }
+
+  /**
+   * Build messages array with system prompt, conversation history, and current request
+   * @param {string} systemPrompt - System prompt for the AI
+   * @param {Array} conversationHistory - Array of previous {description, html} pairs
+   * @param {string} currentDescription - Current user description
+   * @returns {Array} - Array of message objects with role and content
+   */
+  buildMessagesWithHistory(systemPrompt, conversationHistory, currentDescription) {
+    const messages = [{ role: 'system', content: systemPrompt }];
+    
+    // Add previous conversation history
+    for (const item of conversationHistory) {
+      messages.push({ role: 'user', content: item.description });
+      messages.push({ role: 'assistant', content: item.html });
+    }
+    
+    // Add current user message
+    messages.push({ role: 'user', content: currentDescription });
+    
+    return messages;
   }
 
   /**

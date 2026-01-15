@@ -16,7 +16,7 @@ class ZAIProvider extends AIProvider {
     return 'z.ai';
   }
 
-  async generateMockup(description) {
+  async generateMockup(description, conversationHistory = []) {
     if (!this.apiKey) {
       throw new Error('Z.AI API key is not configured');
     }
@@ -32,12 +32,12 @@ class ZAIProvider extends AIProvider {
 
 Return ONLY the HTML code, nothing else.`;
 
+    // Build messages array with conversation history using base class method
+    const messages = this.buildMessagesWithHistory(systemPrompt, conversationHistory, description);
+
     const requestPayload = {
       model: this.model,
-      messages: [
-        { role: 'system', content: systemPrompt },
-        { role: 'user', content: description }
-      ],
+      messages: messages,
       temperature: 1,
       stream: false
     };

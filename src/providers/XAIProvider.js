@@ -16,7 +16,7 @@ class XAIProvider extends AIProvider {
     return 'x.ai';
   }
 
-  async generateMockup(description) {
+  async generateMockup(description, conversationHistory = []) {
     if (!this.apiKey) {
       throw new Error('X.AI API key is not configured');
     }
@@ -32,12 +32,12 @@ class XAIProvider extends AIProvider {
 
 Return ONLY the HTML code, nothing else.`;
 
+    // Build messages array with conversation history using base class method
+    const messages = this.buildMessagesWithHistory(systemPrompt, conversationHistory, description);
+
     const requestPayload = {
       model: this.model,
-      messages: [
-        { role: 'system', content: systemPrompt },
-        { role: 'user', content: description }
-      ],
+      messages: messages,
       temperature: 0.7,
       max_tokens: 4000
     };
