@@ -38,7 +38,7 @@ Return ONLY the HTML code, nothing else.`;
         { role: 'system', content: systemPrompt },
         { role: 'user', content: description }
       ],
-      temperature: 0.7,
+      temperature: 1,
       max_tokens: 4000
     };
 
