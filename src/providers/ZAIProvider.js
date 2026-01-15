@@ -28,7 +28,7 @@ class ZAIProvider extends AIProvider {
 - Include proper semantic HTML
 - Be responsive when appropriate
 - Include placeholder text and images where needed
-- Not include any JavaScript unless specifically requested
+- Not include any JavaScript unless specifically required for layout
 
 Return ONLY the HTML code, nothing else.`;
 
