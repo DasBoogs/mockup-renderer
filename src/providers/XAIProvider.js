@@ -32,17 +32,8 @@ class XAIProvider extends AIProvider {
 
 Return ONLY the HTML code, nothing else.`;
 
-    // Build messages array with conversation history
-    const messages = [{ role: 'system', content: systemPrompt }];
-    
-    // Add previous conversation history
-    for (const item of conversationHistory) {
-      messages.push({ role: 'user', content: item.description });
-      messages.push({ role: 'assistant', content: item.html });
-    }
-    
-    // Add current user message
-    messages.push({ role: 'user', content: description });
+    // Build messages array with conversation history using base class method
+    const messages = this.buildMessagesWithHistory(systemPrompt, conversationHistory, description);
 
     const requestPayload = {
       model: this.model,
