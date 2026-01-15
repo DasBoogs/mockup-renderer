@@ -5,9 +5,10 @@ class AIProvider {
   /**
    * Generate HTML mockup from description
    * @param {string} description - User's mockup description
+   * @param {Array} conversationHistory - Optional array of previous {description, html} pairs
    * @returns {Promise<string>} - Generated HTML mockup
    */
-  async generateMockup(description) {
+  async generateMockup(description, conversationHistory = []) {
     throw new Error('generateMockup must be implemented by subclass');
   }
 

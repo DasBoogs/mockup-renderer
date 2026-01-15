@@ -46,8 +46,11 @@ app.post('/api/generate', async (req, res) => {
 
     console.log(`Generating mockup using ${aiProvider.getName()} provider...`);
 
-    // Generate mockup
-    const html = await aiProvider.generateMockup(description);
+    // Get conversation history if sessionId exists (for iteration support)
+    const history = sessionId && mockupHistory.has(sessionId) ? mockupHistory.get(sessionId) : [];
+
+    // Generate mockup with conversation history
+    const html = await aiProvider.generateMockup(description, history);
 
     // Store in history if sessionId provided, otherwise generate a new one
     const id = sessionId || crypto.randomBytes(16).toString('hex');
